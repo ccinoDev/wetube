@@ -7,23 +7,26 @@ const increaseNumber = () => {
   commentNumber.innerHTML = parseInt(commentNumber.innerHTML, 10) + 1;
 };
 
-const addComment = comment => {
+const addComment = (comment) => {
   const li = document.createElement("li");
   const span = document.createElement("span");
+  const btn = document.createElement("button");
   span.innerHTML = comment;
   li.appendChild(span);
+  btn.innerHTML = "X";
+  li.appendChild(btn);
   commentList.prepend(li);
   increaseNumber();
 };
 
-const sendComment = async comment => {
+const sendComment = async (comment) => {
   const videoId = window.location.href.split("/videos/")[1];
   const response = await axios({
     url: `/api/${videoId}/comment`,
     method: "POST",
     data: {
-      comment: comment
-    }
+      comment: comment,
+    },
   });
 
   if (response.status == 200) {
@@ -31,12 +34,12 @@ const sendComment = async comment => {
   }
 };
 
-const handleSubmit = event => {
+const handleSubmit = (event) => {
   event.preventDefault();
   const commentInput = addCommentForm.querySelector("input");
   const comment = commentInput.value;
   sendComment(comment);
-  commentInput.value;
+  commentInput.value = "";
 };
 
 function init() {
